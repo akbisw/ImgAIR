@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.25em;
+}
+
+.grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1em;
+  grid-row-gap: 2em;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.ps {
+  -ms-grid-column-span: 2;
+  -ms-grid-column: 1;
+      grid-column: 1 / span 2;
+  text-align: center;
+}
+
+.is-error {
+  color: red;
+}
+
+p {
+  margin: 0;
+}
+
+p + p {
+  margin-top: 0.25em;
+}
