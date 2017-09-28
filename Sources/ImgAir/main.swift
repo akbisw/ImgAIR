@@ -26,17 +26,17 @@ let databaseName = env.get("DB_NAME") ?? "image_db"
 
 let client = CouchDBClient(connectionProperties: connectionProperties)
 let database = client.database(databaseName)
-//let imagesMapper = imagesMapper(withDatabase: database)
+let imagesMapper = ImagesMapper(withDatabase: database)
 
 // setup routes
 let router = Router()
 router.all("/static", middleware: StaticFileServer())
 //router.get("/", handler: displayImagesHandler)
 
-//router.get("/books", handler: displayImagesHandler)
-//router.get("/books/:id", handler: getImageHandler)
-//router.post("/books", handler: insertImageHandler)
-//router.update("/books/:id", handler: updateImageHandler)
+//router.get("/images", handler: displayImagesHandler)
+//router.get("/images/:id", handler: getImageHandler)
+router.post("/images", handler: createImageHandler)
+//router.update("/images/:id", handler: updateImageHandler)
 
 // Start server
 Log.info("Starting server")
