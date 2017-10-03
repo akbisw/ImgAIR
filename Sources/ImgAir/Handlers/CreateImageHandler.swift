@@ -18,14 +18,21 @@ func createImageHandler(request: RouterRequest, response: RouterResponse, next: 
 	let jsonData = JSON.parse(string: rawData)
 	Log.info("Heres the image request \(jsonData)")
 	do {
+		// Use the parsed data from request and create an Image object in database
 		let image = try imagesMapper.insertImage(json: jsonData)
 
+		// Take the image object created in db and cast it to JSON
 		var json = image.toJSON()
 
+		// HALify the JSON response 
 		let baseURL = "http://" + (request.headers["Host"] ?? "localhost:8090")
 		let links = JSON(["self": baseURL + "/images/" + image.id])
 		json["_links"] = links
 
+		// Insert the image data as an attachment to the object created in couchDB
+		
+		
+		// Send the response to the client along with couchDB ID and Revision ID
 		response.status(.OK).send(json: json)
 		response.headers["Content-Type"] = "application/hal+json"
 	} catch ImagesMapper.RetrieveError.Invalid(let message) {
