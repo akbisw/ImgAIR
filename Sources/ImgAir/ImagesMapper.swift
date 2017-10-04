@@ -18,6 +18,38 @@ class ImagesMapper {
 	}
 
 	///
+	/// Get All Images
+	///
+	func getAll() -> [Image]? {
+		var images: [Image]?
+
+	    database.queryByView("all_images", ofDesign: "main_design", usingParameters: []) {
+            (document: JSON?, error: NSError?) in
+            if let document = document, error == nil {
+                // create an array of Books from document
+                if let list = document["rows"].array {
+                    images = list.map {
+                        let data = $0["value"];
+                        let imageId = data["_id"].stringValue + ":" + data["_rev"].stringValue
+                        // Retrieve the Base64 image data
+                        let imageData = data["image"]["data"].stringValue
+                        let imageType = data["image"]["content_type"].stringValue
+                        let imageURI = "data:\(imageType);base64,\(imageData)"
+                        return Image(id: imageId, caption: data["caption"].stringValue,
+                            owner: data["owner"].stringValue, imageData: imageURI)
+                    }
+                }
+            } else {
+                Log.error("Something went wrong; could not fetch all images.")
+                if let error = error {
+                    Log.error("CouchDB error: \(error.localizedDescription). Code: \(error.code)")
+                }
+            }
+        }
+        return images
+	}
+
+	///
 	/// Add an image to the database
 	///
 	func insertImage(json: JSON) throws -> Image {
@@ -30,20 +62,16 @@ class ImagesMapper {
 			throw RetrieveError.Invalid("An Image must have filename and BASE64 Image data")
 		}
 
-		// Create attachment JSON
-		let attachmentJSON: JSON = [
-            "content_type": type,
-            "data": imageData
-        ]
-
 		// create a JSON object to store image properties
 		let imageJSON = JSON([
-			"type": "application/json",
+			"type": "image",
 			"owner": owner,
 			"caption": caption,
-			"created": Data().description,
-			"_attachments": attachmentJSON
+			"created": Date().description,
+			"image": ["content_type": type, "data": imageData]
 		])
+
+		Log.info("Heres the image request \(imageJSON)")
 		var image: Image?
 		database.create(imageJSON) { (id, revision, document, err) in
             if let id = id, let revision = revision, err == nil {

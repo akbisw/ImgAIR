@@ -6,14 +6,14 @@ struct Image {
     let caption: String
     let owner: String
     let created: String
-    let fileName: String
+    let imageData: String
 
-    init(id: String, caption: String = "", owner: String = "", fileName: String = "") {
+    init(id: String, caption: String = "", owner: String = "", created: String = "", imageData: String = "") {
         self.id = id
         self.caption = caption
         self.owner = owner
-        self.created = Date().description
-        self.fileName = fileName
+        self.created = created
+        self.imageData = imageData
     }
 
     func toJSON() -> JSON {
@@ -21,6 +21,7 @@ struct Image {
             "caption": caption,
             "owner": owner,
             "created": created,
+            "data": imageData
         ])
     }
 }

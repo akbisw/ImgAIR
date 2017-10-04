@@ -33,7 +33,7 @@ let router = Router()
 router.all("/static", middleware: StaticFileServer())
 //router.get("/", handler: displayImagesHandler)
 
-//router.get("/images", handler: displayImagesHandler)
+router.get("/images", handler: getAllImagesHandler)
 //router.get("/images/:id", handler: getImageHandler)
 router.post("/images", handler: createImageHandler)
 //router.update("/images/:id", handler: updateImageHandler)

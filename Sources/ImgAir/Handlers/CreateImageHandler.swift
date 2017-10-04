@@ -16,7 +16,7 @@ func createImageHandler(request: RouterRequest, response: RouterResponse, next: 
 	}
 
 	let jsonData = JSON.parse(string: rawData)
-	Log.info("Heres the image request \(jsonData)")
+	
 	do {
 		// Use the parsed data from request and create an Image object in database
 		let image = try imagesMapper.insertImage(json: jsonData)

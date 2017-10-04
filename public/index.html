@@ -66,12 +66,12 @@ body {
   .then((resp) => resp.json())
   .then(function(data) {
     let images = data.results;
-    return images.map(function(author) {
+    return images.map(function(image) {
       let li = createNode('li'),
           img = createNode('img'),
           span = createNode('span');
-      img.src = author.picture.medium;
-      span.innerHTML = `${author.name.first} ${author.name.last}`;
+      img.src = image.picture.large;
+      span.innerHTML = `${image.name.first}`;
       append(li, img);
       append(li, span);
       append(ul, li);
