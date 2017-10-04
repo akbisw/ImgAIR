@@ -30,6 +30,9 @@ Build Project:
 Run Project:
 ```./.build/debug/ImgAir```
 
+Allow-Control-Allow-Origin:
+https://chrome.google.com/webstore/category/extensions?hl=en
+
 Open the following url:
 http://localhost:8090
 
