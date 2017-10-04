@@ -10,6 +10,10 @@ Start the container:
 Create admin user (otherwise anyone is allowed to login) using web ui: 
 http://localhost:5984/_utils/#createAdmin/nonode@nohost
 
+Create a new view in couchDB to return all images
+
+```curl -X PUT "$HOST/image_db/_design/main_design" -d @scripts/main_design.json```
+
 ## Setup Kitura & Swift
 Swift Installation on Ubuntu: https://gist.github.com/Azoy/8c47629fa160878cf359bf7380aaaaf9
 
@@ -28,3 +32,7 @@ Run Project:
 
 Open the following url:
 http://localhost:8090
+
+## REST API
+### Post an Image from local directory
+```curl -i -X POST http://localhost:8090/images -H "Content-Type: application/json" -d '{"owner": "Amit Biswas", "caption": "Some Caption", "_attachments": {"content_type": "image/gif", "data": "'"$(base64 -w 0 example.gif)"'"} }'```
