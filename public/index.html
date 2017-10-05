@@ -98,25 +98,58 @@ body {
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
 </head>
 <body>
-  <form enctype='application/json' class="image-form" method="POST" action="">
-  <div>
-    <label for="image_uploads">Choose image to upload (PNG, JPG, GIF)</label>
-    <input id="file" type="file" accept="image/*" onchange="readURL(this);" /> <br><br>
-  </div>
-  <div class="preview">
-    <p>No files currently selected for upload</p>
-  </div>
-  <div>
-    <input class="form-control" type="text" name="caption" placeholder="caption">
-  </div>
-  <br>
-  <div>
-    <input type="submit" name="Submit">
-  </div>
+  <form id="image-form">
+    <input name="caption" id="caption" placeholder="caption">
+    <input type=file id="image" value="" onchange="previewFile()" >
+    <img src="" height="60" alt="Image preview...">
+    <input type="submit">
   </form>
   <h1>Images</h1>
   <ul id="images"></ul>
 <script id="jsbin-javascript">
+  function previewFile() {
+      var preview = document.querySelector('img');
+      var file    = document.querySelector('input[type=file]').files[0];
+      var reader  = new FileReader();
+
+      reader.addEventListener("load", function () {
+        preview.src = reader.result;
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+  }
+  
+  $( 'form' ).submit(function ( e ) {
+    // prepare the file data
+    var preview = document.querySelector('img');
+    var caption = document.querySelector('input[id="caption"]');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var json_payload = {}
+    var attachment = {}
+
+    attachment["data"] = preview.src;
+    attachment["content_type"] = file.type;
+
+    json_payload["_attachments"] = attachment;
+    json_payload["caption"] = caption.value;
+
+    console.log(json_payload);
+
+    // do a post request
+    console.log('Posting request to ImgAIR API...');
+    fetch('http://localhost:8090/images', {
+      method: 'post',
+      body: json_payload
+    }).then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      console.log('Created Image:', data);
+    });
+    e.preventDefault()
+  })
+  
   function createNode(element) {
       return document.createElement(element);
   }
