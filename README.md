@@ -53,7 +53,7 @@ Run Project:
 Open the following url on Firefox/Chrome:
 http://localhost:8090
 
-Inorder for images to show, this plugin is required: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
+In order for images to show, this plugin is required: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
 
 ## REST API
 ### Post an Image from local directory
