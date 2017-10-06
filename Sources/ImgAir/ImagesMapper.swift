@@ -23,7 +23,7 @@ class ImagesMapper {
 	func getAll() -> [Image]? {
 		var images: [Image]?
 
-	    database.queryByView("all_images", ofDesign: "main_design", usingParameters: []) {
+	    database.queryByView("all_images", ofDesign: "main_design", usingParameters: [.descending(true)]) {
             (document: JSON?, error: NSError?) in
             if let document = document, error == nil {
                 // create an array of Books from document
@@ -33,10 +33,8 @@ class ImagesMapper {
                         let imageId = data["_id"].stringValue + ":" + data["_rev"].stringValue
                         // Retrieve the Base64 image data
                         let imageData = data["image"]["data"].stringValue
-                        let imageType = data["image"]["content_type"].stringValue
-                        let imageURI = "data:\(imageType);base64,\(imageData)"
                         return Image(id: imageId, caption: data["caption"].stringValue,
-                            owner: data["owner"].stringValue, imageData: imageURI)
+                            owner: data["owner"].stringValue, imageData: imageData)
                     }
                 }
             } else {
@@ -67,7 +65,7 @@ class ImagesMapper {
 			"type": "image",
 			"owner": owner,
 			"caption": caption,
-			"created": Date().description,
+			"created": Date().timeIntervalSince1970,
 			"image": ["content_type": type, "data": imageData]
 		])
 

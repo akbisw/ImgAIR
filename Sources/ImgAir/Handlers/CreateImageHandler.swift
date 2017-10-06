@@ -6,7 +6,8 @@ import SwiftyJSON
 func createImageHandler(request: RouterRequest, response: RouterResponse, next: ()->Void) -> Void {
 	Log.info("Handling a post to /images")
 
-	let contentType = request.headers["Content-Type"] ?? "";
+	let contentType = request.headers["Content-Type"] ?? ""
+	
 	guard let rawData = try! request.readString(),
 		contentType.hasPrefix("application/json") else {
 		Log.info("No data")
@@ -14,6 +15,7 @@ func createImageHandler(request: RouterRequest, response: RouterResponse, next: 
 		next()
 		return
 	}
+	Log.info("Original Request: \(rawData)")
 
 	let jsonData = JSON.parse(string: rawData)
 	
@@ -28,9 +30,6 @@ func createImageHandler(request: RouterRequest, response: RouterResponse, next: 
 		let baseURL = "http://" + (request.headers["Host"] ?? "localhost:8090")
 		let links = JSON(["self": baseURL + "/images/" + image.id])
 		json["_links"] = links
-
-		// Insert the image data as an attachment to the object created in couchDB
-		
 		
 		// Send the response to the client along with couchDB ID and Revision ID
 		response.status(.OK).send(json: json)

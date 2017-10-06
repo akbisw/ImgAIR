@@ -30,7 +30,7 @@ let imagesMapper = ImagesMapper(withDatabase: database)
 
 // setup routes
 let router = Router()
-router.all("/static", middleware: StaticFileServer())
+router.all("/", middleware: StaticFileServer())
 //router.get("/", handler: displayImagesHandler)
 
 router.get("/images", handler: getAllImagesHandler)
