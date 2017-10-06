@@ -24,16 +24,17 @@ Clone the repository: https://github.com/akbisw/ImgAIR.git
 Change directory to the project directory:
 ```git clone https://github.com/akbisw/ImgAIR.git```
 
+Create an Environment file to store Database credentials:
+
+
+
 Build Project:
 ```swift build```
 
 Run Project:
 ```./.build/debug/ImgAir```
 
-Allow-Control-Allow-Origin:
-https://chrome.google.com/webstore/category/extensions?hl=en
-
-Open the following url:
+Open the following url on Firefox:
 http://localhost:8090
 
 ## REST API
