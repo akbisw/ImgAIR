@@ -177,6 +177,7 @@
       return response.json();
     }).then(function(data) {
       console.log('Created Image:', data);
+      location = location;
     });
     e.preventDefault()
   })
