@@ -14,9 +14,9 @@ Create a new database by clicking on Create Database button in the following URL
 
 http://localhost:5984/_utils/#/_all_dbs
 
-Create a new view in couchDB to return all images
+Create a new view in couchDB to return all images using script below (chmod +x first):
 
-```curl -X PUT "$HOST/image_db/_design/main_design" -d @scripts/main_design.json```
+```./scripts/insert_images.sh --username=USER --password=PASS```
 
 ## Setup Kitura & Swift
 Swift Installation on Ubuntu: https://gist.github.com/Azoy/8c47629fa160878cf359bf7380aaaaf9
@@ -55,6 +55,8 @@ http://localhost:8090
 
 In order for images to show, this plugin is required: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
 
+I have some example cat pictures in scripts/cats directory. Feel free to test using those images. 
+
 ## REST API
 ### Post an Image from local directory
-```curl -i -X POST http://localhost:8090/images -H "Content-Type: application/json" -d '{"owner": "Amit Biswas", "caption": "Some Caption", "_attachments": {"content_type": "image/gif", "data": "'"$(base64 -w 0 example.gif)"'"} }'```
+Work in progress. Use webpage to upload and view images for now.
