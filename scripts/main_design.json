@@ -2,7 +2,7 @@
   "id": "_design/main_design",
   "views": {
     "all_images": {
-      "map" : "function(doc) {  if (doc.type == 'image') { emit([doc.owner, doc.caption], doc); } }"
+      "map" : "function (doc) { emit([doc.author, doc.title], doc); }"
     }
   },
   "language": "javascript"
