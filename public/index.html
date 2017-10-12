@@ -136,13 +136,23 @@
       var preview = document.querySelector('img');
       var file    = document.querySelector('input[type=file]').files[0];
       var reader  = new FileReader();
-
+      var ftype;
+      // Asynchronous function. Waits for file to upload
       reader.addEventListener("load", function () {
-        preview.src = reader.result;
+            switch(ftype) {
+              case 'image/png':
+              case 'image/gif':
+              case 'image/jpeg':
+                  preview.src = reader.result;
+                  return;
+              default:
+                  alert('Unsupported File!');
+            }
       }, false);
-
+      // If the file is valid, read the file as base64 string and get its type.
       if (file) {
         reader.readAsDataURL(file);
+        ftype = file.type;
       }
   }
   
@@ -151,6 +161,21 @@
     var preview = document.querySelector('img');
     var caption = document.querySelector('input[id="caption"]');
     var file    = document.querySelector('input[type=file]').files[0];
+
+    // Image File Validation
+    var fsize = file.size;
+    var ftype = file.type;
+
+    switch(ftype) {
+      case 'image/png':
+      case 'image/gif':
+      case 'image/jpeg':
+          break;
+      default:
+          alert('Unsupported File!');
+          return;
+    }
+
     var json_payload = {}
     var attachment = {}
 
