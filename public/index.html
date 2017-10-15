@@ -233,7 +233,7 @@
   var skip = 0;
 
   const ul = document.getElementById('images');
-  const url = 'http://localhost:5984/image_db/_design/main_design/_view/all_images?limit=10&descending=true&skip=';
+  const url = '/images/';
 
   function fetchImages(skip) {
     fetch(url+skip)
@@ -256,7 +256,6 @@
     .catch(function(error) {
       console.log(JSON.stringify(error));
     });
-    // determine current page, determine last page
   }
 
   var $pagination = $('#pagination-demo');

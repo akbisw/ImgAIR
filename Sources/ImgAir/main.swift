@@ -31,12 +31,12 @@ let imagesMapper = ImagesMapper(withDatabase: database)
 // setup routes
 let router = Router()
 router.all("/", middleware: StaticFileServer())
-//router.get("/", handler: displayImagesHandler)
-
+// Get all images from the database
 router.get("/images", handler: getAllImagesHandler)
-//router.get("/images/:id", handler: getImageHandler)
+// POST an image to the database
 router.post("/images", handler: createImageHandler)
-//router.update("/images/:id", handler: updateImageHandler)
+// Get top 10 images latest after skipping value
+router.get("/images/:skip", handler: getLatest10Images)
 
 // Start server
 Log.info("Starting server")

@@ -48,6 +48,28 @@ class ImagesMapper {
 	}
 
 	///
+	/// Get images after the offset amount in descending order
+	///
+	func getImagesOffset(withSkip skip: Int) -> JSON? {
+		var responseJSON: JSON?
+
+	    database.queryByView("all_images", ofDesign: "main_design", usingParameters: [.skip(skip),.limit(10),.descending(true)]) {
+            (document: JSON?, error: NSError?) in
+            if let document = document, error == nil {
+                // create an array of Books from document
+                responseJSON = document
+            } else {
+                Log.error("Something went wrong; could not fetch all images.")
+                if let error = error {
+                    Log.error("CouchDB error: \(error.localizedDescription). Code: \(error.code)")
+                }
+            }
+        }
+
+        return responseJSON
+	}
+
+	///
 	/// Add an image to the database
 	///
 	func insertImage(json: JSON) throws -> Image {
@@ -57,7 +79,13 @@ class ImagesMapper {
 
 		guard let type =  json["_attachments"]["content_type"].string,
 		let imageData = json["_attachments"]["data"].string else {
-			throw RetrieveError.Invalid("An Image must have filename and BASE64 Image data")
+			throw RetrieveError.Invalid("An Image must have filetype and BASE64 Image data")
+		}
+
+		// Check if image is either JPEG GIF OR PNG
+		let dataURLPattern = "^data:image/(png|jpeg|gif);base64,[^\"]*$"
+		if imageData.range(of: dataURLPattern, options: .regularExpression, range: nil, locale: nil) == nil {
+			throw RetrieveError.Invalid("Not a proper data URL formatted image.")
 		}
 
 		// create a JSON object to store image properties
