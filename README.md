@@ -53,10 +53,8 @@ Run Project:
 Open the following url on Firefox/Chrome:
 http://localhost:8090
 
-In order for images to show, this plugin is required: https://addons.mozilla.org/en-US/firefox/addon/cors-everywhere/
-
 I have some example cat pictures in scripts/cats directory. Feel free to test using those images. 
 
 ## REST API
 ### Post an Image from local directory
-Work in progress. Use webpage to upload and view images for now.
+API Documentation work in progress
